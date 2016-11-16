@@ -1,0 +1,35 @@
+<!-- <h1>INDEX</h1> -->
+<br>
+
+    <% @ideas.each do |p| %>
+    <div class="">
+    <b><%= link_to p.title, idea_path(p)%></b>
+    </div>
+      <div class="">
+
+    <%= p.body %>
+    </div>
+    <i>Submitted By:
+    <%= link_to p.user.first_name.capitalize, user_path(p.user) %></i>
+<br>
+<%= "Likes: #{p.likes.size}" %> |
+        <% if user_signed_in? && can?(:like, p)%>
+          <% like = p.like_for(current_user) %>
+            <% if like.present? %>
+             <%= link_to "Unlike", like_path(p.likes.ids), method: :delete  %>
+            <% else %>
+            <%= link_to "Like", idea_likes_path(p), method: :post  %>
+            <% end %>
+        <% end %>
+    <br>
+    <%= "Members: #{p.joins.size}" %> |
+        <% if user_signed_in? && can?(:join, p)%>
+            <% join = p.join_for(current_user) %>
+            <% if join.present? %>
+            <%= link_to "unJoin", join_path(p.joins.ids), method: :delete  %>
+            <% else %>
+            <%= link_to "Join", idea_joins_path(p), method: :post  %>
+            <% end %>
+        <% end %>
+    <hr>
+<% end %>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ideas</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+  </head>
+
+  <body>
+    <nav>
+      <%= link_to 'Ideas Index', ideas_path %>
+      |
+
+      <%= link_to 'New Idea', new_idea_path %>
+      <img src="" alt="" />
+        <div class="" style="float: right">
+
+      <login>
+
+        <% if user_signed_in? %>
+        Hello <%= "#{current_user.first_name.capitalize}  #{current_user.last_name.capitalize}" %>
+        <%= link_to 'Sign out', sessions_path, method: :delete %>
+        <% else %>
+        <%= link_to 'Sign up', new_user_path %>
+        |
+        <%= link_to 'Sign In', new_session_path %>
+        <% end %>
+      </login>
+
+    </div>
+    <hr>
+  </nav>
+  <%= flash[:notice] || flash[:alert] %>
+    <h1>The Idea Factory</h1>
+
+
+
+    <%= yield %>
+  </body>
+</html>

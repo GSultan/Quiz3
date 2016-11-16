@@ -1,0 +1,44 @@
+<h2><%= @idea.title %></h2>
+<p>
+  <%= @idea.body %>
+</p>
+<p>
+  <%= "(#{@idea.likes.size} likes)" %>
+</p>
+  <attached><%= image_tag @idea.image.url(:medium) %></attached>
+<br>
+
+<% if user_signed_in? %>
+  <%= form_for [@idea, @idea.comments.build] do |f| %>
+  <div class="">
+    <%# f.label :comment %>
+    <%= f.text_field :body %>
+    <%= f.submit "Leave a Comment" %>
+  </div>
+  <% end %>
+<% end %>
+
+<h3>Comments</h3>
+  <% @idea.comments.reload.each do |comment| %>
+    <div>
+        <br><%= comment.body %>
+        <% if user_signed_in? && can?(:manage, comment) %>
+            <%= link_to "Delete", comment_path(comment), method: :delete, data: {confirm: 'Are you sure?'} %>
+          </div>
+          <br>
+        <% end %>
+  <% end %>
+
+
+<% if can?(:manage, @idea) %>
+<%= link_to "Edit Idea", edit_idea_path(@idea) %>
+<%= link_to "Delete Idea", idea_path(@idea), method: :delete, data: {confirm: 'Are you sure?'} %>
+<% end %>
+
+<br>
+<h3>Idea Members</h3>
+<ul>
+<% @idea.joiners.each do |j| %>
+  <li><%= j.first_name.capitalize %> <%= j.last_name.capitalize%></li>
+<% end %>
+</ul>

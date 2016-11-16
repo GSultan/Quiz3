@@ -1,0 +1,23 @@
+<h1><%= "#{@user.first_name.capitalize}'s Ideas" %></h1>
+
+
+<% @user.ideas.each do |f| %>
+
+<b>Title: <%= link_to f.title, idea_path(f)%></b>
+<br>
+Body: <%= f.body %>
+<br>
+<%= "(#{f.likes.size} likes)" %>
+<br>
+<br>
+
+
+
+<% if current_user == f.user %>
+<%= link_to "Edit Idea", edit_idea_path(f) %>
+<%= link_to "Delete Idea", idea_path(f), method: :delete, data: {confirm: 'Are you sure?'} %>
+<br>
+<br>
+<% end %>
+
+<% end %>
